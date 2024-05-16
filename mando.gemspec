@@ -34,6 +34,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency "activemodel", "~> 7.1"
   spec.add_dependency "activejob", "> 7.1"
   spec.add_dependency "activesupport", "~> 7.1"
+
+  spec.add_development_dependency "activerecord", "~> 7.1"
+  spec.add_development_dependency "globalid", "~> 1.2"
   spec.add_development_dependency "debug", "~> 1.9"
   spec.add_development_dependency "rubocop", "~> 1"
   spec.add_development_dependency "standard", "~> 1"

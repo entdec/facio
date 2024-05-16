@@ -19,6 +19,7 @@ require "services/later_service"
 require "services/later_context"
 
 # ActiveJob::Base.logger = Logger.new(nil)
+GlobalID.app = "mando"
 
 ActiveRecord::Base.establish_connection adapter: "sqlite3", database: "mando.db"
 ActiveRecord::Schema.define do

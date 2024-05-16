@@ -21,6 +21,5 @@ class TestServices < Minitest::Test
       assert true, result.successfully_enqueued?
     end
     assert_equal "tset", message.reload.text
-    binding.pry
   end
 end

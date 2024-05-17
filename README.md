@@ -17,22 +17,16 @@ If bundler is not being used to manage dependencies, install the gem by executin
 ## Usage
 
 Every service has a context, which encapsulates all the information to perform the action.
-A context is just an PORO, which includes the ActiveModel::API.
-
-simple_context.rb:
-```
-class SimpleContext < Facio::Context
-  attr_accessor :value
-  attr_accessor :result
-end
-```
-
-Then you can define a service, which inherits from ActiveJob::Base. 
-This is awesome as it allows you to perform things immediately or at a later time.
+A context is just an PORO, which includes the ActiveModel::API. 
+Context can be created in separate files, but also inline in the service.
 
 simple_service.rb:
 ```ruby
 class SimpleService < Facio::Service
+  context do
+    attribute :value
+    attribute :result
+  end
   def perform
     context.result = context.value.to_s.reverse
   end
@@ -41,7 +35,7 @@ end
 
 You can call the service as follows:
 ```ruby
-result = SimpleService.perform(value: "no lemon, no melon") # => "nolem on ,nomel on"
+SimpleService.perform(value: "no lemon, no melon").result # => "nolem on ,nomel on"
 ```
 
 ## License

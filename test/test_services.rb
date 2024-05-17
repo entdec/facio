@@ -22,4 +22,10 @@ class TestServices < Minitest::Test
     end
     assert_equal "tset", message.reload.text
   end
+
+  def test_can_use_service_with_inline_context
+    subject = InlineService.perform(value: "test")
+    assert_equal "tset", subject.result
+    assert_equal "InlineContext", subject.class.name
+  end
 end

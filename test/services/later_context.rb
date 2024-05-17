@@ -1,3 +1,4 @@
 class LaterContext < Facio::Context
-  attr_accessor :message
+  attribute :message
+  attribute :result
 end

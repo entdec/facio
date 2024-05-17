@@ -1,4 +1,4 @@
 class SimpleContext < Facio::Context
-  attr_accessor :value
-  attr_accessor :result
+  attribute :value
+  attribute :result
 end

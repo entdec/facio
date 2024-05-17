@@ -7,6 +7,7 @@ require "action_controller"
 
 require_relative "facio/version"
 require_relative "facio/active_model/associations"
+require_relative "facio/base_model"
 require_relative "facio/context"
 require_relative "facio/service"
 

@@ -8,15 +8,8 @@ require "globalid"
 require "debug"
 require "minitest/autorun"
 
-require "models/address"
-require "models/contact"
-require "models/message"
-
-require "services/simple_service"
-require "services/simple_context"
-
-require "services/later_service"
-require "services/later_context"
+Dir["test/services/**/*.rb"].sort.each { |file| require file }
+Dir["test/models/**/*.rb"].sort.each { |file| require file }
 
 ActiveJob::Base.logger = Logger.new(nil)
 GlobalID.app = "facio"

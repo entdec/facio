@@ -6,19 +6,43 @@ Command pattern for Ruby (on Rails). From Wikipedia:
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+    $ bundle add facio
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+    $ gem install facio
 
 ## Usage
 
+Every service has a context, which encapsulates all the information to perform the action.
+A context is just an PORO, which includes the ActiveModel::API.
 
+simple_context.rb:
+```
+class SimpleContext < Facio::Context
+  attr_accessor :value
+  attr_accessor :result
+end
+```
+
+Then you can define a service, which inherits from ActiveJob::Base. 
+This is awesome as it allows you to perform things immediately or at a later time.
+
+simple_service.rb:
+```ruby
+class SimpleService < Facio::Service
+  def perform
+    context.result = context.value.to_s.reverse
+  end
+end
+```
+
+You can call the service as follows:
+```ruby
+result = SimpleService.perform(value: "no lemon, no melon") # => "nolem on ,nomel on"
+```
 
 ## License
 

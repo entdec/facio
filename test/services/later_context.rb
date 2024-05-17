@@ -1,3 +1,3 @@
-class LaterContext < Mando::Context
+class LaterContext < Facio::Context
   attr_accessor :message
 end

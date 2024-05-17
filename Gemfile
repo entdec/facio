@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-# Specify your gem's dependencies in mando.gemspec
+# Specify your gem's dependencies in facio.gemspec
 gemspec
 
 gem "rake", "~> 13.0"

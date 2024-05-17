@@ -2,8 +2,8 @@
 
 require "test_helper"
 
-class TestMando < Minitest::Test
+class TestFacio < Minitest::Test
   def test_that_it_has_a_version_number
-    refute_nil ::Mando::VERSION
+    refute_nil ::Facio::VERSION
   end
 end

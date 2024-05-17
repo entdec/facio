@@ -1,4 +1,4 @@
-module Mando
+module Facio
   class Context
     include ActiveModel::API
     include ActiveModel::Serializers::JSON

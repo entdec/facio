@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
-require "mando"
+require "facio"
 
 require "active_record"
 require "globalid"
@@ -19,9 +19,9 @@ require "services/later_service"
 require "services/later_context"
 
 ActiveJob::Base.logger = Logger.new(nil)
-GlobalID.app = "mando"
+GlobalID.app = "facio"
 
-ActiveRecord::Base.establish_connection adapter: "sqlite3", database: "mando.db"
+ActiveRecord::Base.establish_connection adapter: "sqlite3", database: "facio.db"
 ActiveRecord::Schema.define do
   self.verbose = false
 

@@ -1,6 +1,6 @@
 require_relative "concerns/dsl"
 
-module Mando
+module Facio
   class Service < ActiveJob::Base
     include Dsl
 

@@ -6,6 +6,6 @@
 /pkg/
 /spec/reports/
 /tmp/
-mando.db
-mando.db-shm
-mando.db-wal
+facio.db
+facio.db-shm
+facio.db-wal

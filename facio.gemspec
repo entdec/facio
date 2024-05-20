@@ -29,18 +29,21 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  # Uncomment to register a new dependency of your gem
-  spec.add_dependency "actionpack", "~> 7.1"
-  spec.add_dependency "activemodel", "~> 7.1"
-  spec.add_dependency "activejob", "> 7.1"
-  spec.add_dependency "activesupport", "~> 7.1"
+  rails_deps_version = "~> 7.1"
 
-  spec.add_development_dependency "activerecord", "~> 7.1"
+  # Uncomment to register a new dependency of your gem
+  spec.add_dependency "actionpack", rails_deps_version
+  spec.add_dependency "activemodel", rails_deps_version
+  spec.add_dependency "activejob", rails_deps_version
+  spec.add_dependency "activesupport", rails_deps_version
+  spec.add_dependency "railties", rails_deps_version
+
+  spec.add_development_dependency "activerecord", rails_deps_version
   spec.add_development_dependency "globalid", "~> 1.2"
   spec.add_development_dependency "debug", "~> 1.9"
   spec.add_development_dependency "rubocop", "~> 1"
   spec.add_development_dependency "standard", "~> 1"
-  spec.add_development_dependency "sqlite3", "~> 2.0"
+  spec.add_development_dependency "sqlite3", "~> 1.4"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html

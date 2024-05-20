@@ -8,8 +8,8 @@ require "globalid"
 require "debug"
 require "minitest/autorun"
 
-Dir["test/services/**/*.rb"].sort.each { |file| require file }
-Dir["test/models/**/*.rb"].sort.each { |file| require file }
+Dir["test/services/**/*.rb"].sort.each { |file| require File.join(Dir.pwd, file) }
+Dir["test/models/**/*.rb"].sort.each { |file| require File.join(Dir.pwd, file) }
 
 ActiveJob::Base.logger = Logger.new(nil)
 GlobalID.app = "facio"

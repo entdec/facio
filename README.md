@@ -18,7 +18,8 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 Every service has a context, which encapsulates all the information to perform the action.
 A context is just an PORO, which includes the ActiveModel::API. 
-Context can be created in separate files, but also inline in the service.
+Context can be created in separate files, but also inline in the service. 
+Using context like below will then construct a Class, with Facio::Context as a base_class. 
 
 simple_service.rb:
 ```ruby

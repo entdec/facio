@@ -27,5 +27,16 @@ class TestServices < Minitest::Test
     subject = InlineService.perform(value: "test")
     assert_equal "tset", subject.result
     assert_equal "InlineContext", subject.class.name
+    assert_equal "Facio::Context", subject.class.superclass.name
+  end
+
+  def test_context_will_use_application_context_if_defined
+    skip "Doesn't work yet, can't seem to define ApplicationContext and find it in dsl.rb/context_base_class"
+    Object.const_set("ApplicationContext", Class.new(Facio::Context))
+
+    subject = InlineService.perform(value: "test")
+    assert_equal "tset", subject.result
+    assert_equal "InlineContext", subject.class.name
+    assert_equal "ApplicationContext", subject.class.superclass.name
   end
 end

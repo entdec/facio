@@ -39,6 +39,51 @@ You can call the service as follows:
 SimpleService.perform(value: "no lemon, no melon").result # => "nolem on ,nomel on"
 ```
 
+### Context
+As mentioned above, a context encapsulates all information to perform the action, for simple services like above you can inline the context. You can also use external context classes and refer to the in the inline class using the base_class
+
+some_context.rb
+```ruby
+class SomeContext < Facio::Context
+  attribute :special
+end
+```
+
+simple_service.rb:
+```ruby
+class OtherService < Facio::Service
+  context base_class: "SomeContext" do
+    attribute :value
+    attribute :result
+  end
+  def perform
+    context.result = context.value.to_s.reverse
+    context.result += "special" if context.special.present?
+  end
+end
+```
+
+Next to this, you can have your service-class be accompanied by a context-class. The service will find the matching context:
+
+fancy_context.rb
+```ruby
+class FancyContext < Facio::Context
+  attribute :fancy
+end
+```
+
+fancy_service.rb
+```ruby
+class Fancy:Service < Facio::Service
+  def perform
+    context.result = context.value.to_s.reverse
+  end
+end
+```
+
+A context is in basis a ActiveModel, with useful extra's allowing for associations (has_one/has_many). 
+It also has a type caster for models, so that you can pass the id or the model itself into an attribute.
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

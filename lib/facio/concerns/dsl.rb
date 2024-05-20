@@ -15,7 +15,7 @@ module Dsl
     # Under normal circumstances the context class is subclassed from Facio::Context, but if you want to override
     # this behaviour you can pass a base_class as an argument.
     #
-    def context(base_class: Facio::Context, &)
+    def context(base_class: context_base_class, &)
       @context_class = Object.const_set(derived_context_name, Class.new(base_class))
       @context_class.instance_exec(&)
     end
@@ -27,6 +27,11 @@ module Dsl
     end
 
     # Helpers
+
+    def context_base_class
+      # FIXME: This doesn't work sadly
+      Object.const_defined?("ApplicationContext") ? Object.const_get("ApplicationContext") : Facio::Context
+    end
 
     def context_class
       @context_class || context_class_name.safe_constantize

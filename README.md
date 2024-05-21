@@ -15,11 +15,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
     $ gem install facio
 
 ## Usage
-
-Every service has a context, which encapsulates all the information to perform the action.
-A context is just an PORO, which includes the ActiveModel::API. 
-Context can be created in separate files, but also inline in the service. 
-Using context like below will then construct a Class, with Facio::Context as a base_class. 
+**Every** service has a context, which encapsulates all the information to perform the action.
 
 simple_service.rb:
 ```ruby
@@ -39,7 +35,32 @@ You can call the service as follows:
 SimpleService.perform(value: "no lemon, no melon").result # => "nolem on ,nomel on"
 ```
 
+later_service.rb:
+```ruby
+class LaterService < Facio::Service
+  context do
+    attribute :message
+    attribute :result
+  end
+  def perform
+    context.message.text.reverse
+    context.message.save!
+  end
+end
+```
+
+You can also have the service execute at a later time:
+```ruby
+SimpleService.perform_later(message: Message.find(1))
+```
+In this case, once the service is done, you should see the Message's text being reversed.
+
+
 ### Context
+
+A context is just an PORO, which includes the ActiveModel::API. 
+Context can be created in separate files, but also inline in the service. 
+Using context like below will then construct a Class, with Facio::Context as a base_class. 
 As mentioned above, a context encapsulates all information to perform the action, for simple services like above you can inline the context. You can also use external context classes and refer to the in the inline class using the base_class
 
 some_context.rb
@@ -76,7 +97,7 @@ fancy_service.rb
 ```ruby
 class Fancy:Service < Facio::Service
   def perform
-    context.result = context.value.to_s.reverse
+    context.result = context.fancy.to_s.reverse
   end
 end
 ```

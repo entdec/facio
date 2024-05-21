@@ -6,28 +6,62 @@ class TestServices < Minitest::Test
   include ActiveJob::TestHelper
 
   def test_can_use_service_with_perform
-    assert_equal "tset", SimpleService.perform(value: "test").result
+    subject = SimpleService.perform(value: "test")
+    assert subject.performed?
+    assert_equal "tset", subject.result
+    assert_equal "SimpleService", subject.class.name
+  end
+
+  def test_can_use_service_with_perform_now
+    subject = SimpleService.perform_now(value: "test")
+    assert subject.performed?
+    assert_equal "tset", subject.result
+    assert_equal "SimpleService", subject.class.name
   end
 
   def test_can_use_service_with_perform_later
-    result = SimpleService.perform_later
-    assert true, result.successfully_enqueued?
+    subject = SimpleService.perform_later
+    refute subject.performed?
+    assert subject.successfully_enqueued?
   end
 
   def test_actually_does_something_in_perform_later
     message = Message.create!(text: "test")
+    subject = nil
     perform_enqueued_jobs do
-      result = LaterService.perform_later(message: message)
-      assert true, result.successfully_enqueued?
+      subject = LaterService.perform_later(message: message)
+      refute subject.performed?
+      assert_equal "LaterService", subject.class.name
+      assert subject.successfully_enqueued?
     end
     assert_equal "tset", message.reload.text
   end
 
   def test_can_use_service_with_inline_context
     subject = InlineService.perform(value: "test")
+    assert subject.performed?
     assert_equal "tset", subject.result
-    assert_equal "InlineContext", subject.class.name
-    assert_equal "Facio::Context", subject.class.superclass.name
+    assert_equal "InlineService", subject.class.name
+    assert_equal "InlineContext", subject.context.class.name
+    assert_equal "Facio::Context", subject.context.class.superclass.name
+  end
+
+  def test_can_use_service_with_inline_context_and_result
+    subject = InlineResultService.perform(value: "test")
+    assert subject.performed?
+    assert_equal "tset", subject.result.text
+    assert_equal "InlineResultService", subject.class.name
+    assert_equal "InlineResultContext", subject.context.class.name
+    assert_equal "InlineResultResult", subject.result.class.name
+    assert_equal "Facio::Context", subject.context.class.superclass.name
+  end
+
+  def test_service_will_not_perform_if_context_is_invalid
+    subject = InlineWithValidationsService.perform
+    assert_nil subject.result
+    refute subject.valid?
+    refute subject.performed?
+    assert_equal "can't be blank", subject.context.errors[:value].first
   end
 
   def test_context_will_use_application_context_if_defined
@@ -35,7 +69,9 @@ class TestServices < Minitest::Test
     Object.const_set("ApplicationContext", Class.new(Facio::Context))
 
     subject = InlineService.perform(value: "test")
+    assert subject.performed?
     assert_equal "tset", subject.result
+    assert_equal "InlineService", result.class.name
     assert_equal "InlineContext", subject.class.name
     assert_equal "ApplicationContext", subject.class.superclass.name
   end

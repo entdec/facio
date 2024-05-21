@@ -1,4 +1,4 @@
-module Dsl
+module ServiceContext
   extend ActiveSupport::Concern
 
   included do

@@ -1,0 +1,21 @@
+module Translations
+  extend ActiveSupport::Concern
+
+  included do
+    def t(key, passed_options = {})
+      @service_scope ||= nil
+
+      unless @service_scope.present?
+        parts = (is_a?(Class) ? self : self.class).to_s.underscore.tr("/", ".").split(".")
+        parts[-1] = "#{parts.last.gsub("_service", "").pluralize}.service" if parts.last.end_with?("_service")
+        parts[-1] = "#{parts.last.gsub("_context", "").pluralize}.context" if parts.last.end_with?("_context")
+        @service_scope = parts.compact.join(".")
+      end
+
+      options = {scope: @service_scope}
+      options[:default] = ::I18n.t(key) unless key.start_with?(".")
+
+      ::I18n.t(key, **options.merge(passed_options))
+    end
+  end
+end

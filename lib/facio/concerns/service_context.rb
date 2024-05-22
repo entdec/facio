@@ -16,7 +16,8 @@ module ServiceContext
     # this behaviour you can pass a base_class as an argument.
     #
     def context(base_class: context_base_class, &)
-      @context_class = Object.const_set(derived_context_name, Class.new(base_class))
+      mdl = derived_context_name.deconstantize.present? ? derived_context_name.deconstantize.safe_constantize : Object
+      @context_class = mdl.const_set(derived_context_name.demodulize, Class.new(base_class))
       @context_class.instance_exec(&)
     end
 

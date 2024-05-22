@@ -12,7 +12,8 @@ module ServiceResult
     # this behaviour you can pass a base_class as an argument.
     #
     def result(base_class: result_base_class, &)
-      @result_class = Object.const_set(derived_result_name, Class.new(base_class))
+      mdl = derived_context_name.deconstantize.present? ? derived_context_name.deconstantize.safe_constantize : Object
+      @result_class = mdl.const_set(derived_result_name.demodulize, Class.new(base_class))
       @result_class.instance_exec(&)
     end
 

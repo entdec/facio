@@ -15,10 +15,10 @@ If bundler is not being used to manage dependencies, install the gem by executin
     $ gem install facio
 
 ## Usage
-**Every** service has a context, which encapsulates all the information to perform the action.
+Every service has a context, which encapsulates all the information to perform the action. The perform method on the service should include all your code. 
 
-simple_service.rb:
 ```ruby
+# simple_service.rb
 class SimpleService < Facio::Service
   context do
     attribute :value
@@ -28,15 +28,15 @@ class SimpleService < Facio::Service
     context.result = context.value.to_s.reverse
   end
 end
+
+# You can perform the service as follows:
+SimpleService.perform(value: "no lemon, no melon").result 
+# => "nolem on ,nomel on"
 ```
 
-You can call the service as follows:
+You can also have the service perform at a later time:
 ```ruby
-SimpleService.perform(value: "no lemon, no melon").result # => "nolem on ,nomel on"
-```
-
-later_service.rb:
-```ruby
+# later_service.rb
 class LaterService < Facio::Service
   context do
     attribute :message
@@ -47,31 +47,27 @@ class LaterService < Facio::Service
     context.message.save!
   end
 end
-```
 
-You can also have the service execute at a later time:
-```ruby
+# This will perform the service at a later time:
 SimpleService.perform_later(message: Message.find(1))
 ```
 In this case, once the service is done, you should see the Message's text being reversed.
 
-
 ### Context
 
-A context is just an PORO, which includes the ActiveModel::API. 
-Context can be created in separate files, but also inline in the service. 
-Using context like below will then construct a Class, with Facio::Context as a base_class. 
-As mentioned above, a context encapsulates all information to perform the action, for simple services like above you can inline the context. You can also use external context classes and refer to the in the inline class using the base_class
+A context is just an PORO, which includes the ActiveModel::API, which includes validation. You can add validation to the context, 
+Facio will check the validity of the context before performing the service. Context can be created in separate files, but also inline in the service. 
 
-some_context.rb
+It has some useful extra's allowing for associations (has_one/has_many), it also has a type caster for models, so that you can pass the id or the model itself into an attribute.
+
+Using context like below (inline) will then construct a Class, with Facio::Context as a base_class. You can also use external context classes and refer to the in the inline class using the base_class.
 ```ruby
+# some_context.rb
 class SomeContext < Facio::Context
   attribute :special
 end
-```
 
-simple_service.rb:
-```ruby
+# simple_service.rb
 class OtherService < Facio::Service
   context base_class: "SomeContext" do
     attribute :value
@@ -84,26 +80,26 @@ class OtherService < Facio::Service
 end
 ```
 
-Next to this, you can have your service-class be accompanied by a context-class. The service will find the matching context:
+Next to this, you can have your service-class be accompanied by a context-class, if that's your preference. The service will find the matching context:
 
-fancy_context.rb
 ```ruby
+# fancy_context.rb
 class FancyContext < Facio::Context
   attribute :fancy
 end
-```
 
-fancy_service.rb
-```ruby
-class Fancy:Service < Facio::Service
+# fancy_service.rb
+class FancyService < Facio::Service
   def perform
     context.result = context.fancy.to_s.reverse
   end
 end
 ```
 
-A context is in basis a ActiveModel, with useful extra's allowing for associations (has_one/has_many). 
-It also has a type caster for models, so that you can pass the id or the model itself into an attribute.
+### Result
+
+When the context model includes a result attribute, you can (and should) use that to return the outcome of the service. Facio will set it to the last value of the perform if you don't. 
+Additionally, when the return value is more complex, or you need validation on the return, you can use the return object.
 
 ## License
 

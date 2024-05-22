@@ -1,5 +1,6 @@
 require_relative "concerns/service_context"
 require_relative "concerns/service_result"
+require_relative "concerns/translations"
 
 module Facio
   class Service < ActiveJob::Base
@@ -14,8 +15,8 @@ module Facio
       if @context.valid?
         result = block.call
         @performed = true
-        # Purely as a convenience
-        context.result ||= result if @result.nil? && context.respond_to?(:result)
+        # Purely as a convenience, but also to enforce a standard
+        context.result ||= result if @result.nil?
       end
 
       self
@@ -43,6 +44,11 @@ module Facio
       @result || context.result
     end
 
+    # Returns the errors on the context object
+    def errors
+      @context.errors
+    end
+
     # Returns whether the context is valid
     def valid?
       @context.valid?
@@ -50,6 +56,16 @@ module Facio
 
     def performed?
       @performed
+    end
+
+    def success?
+      success = performed? && valid?
+      success &&= @result.valid? if @result
+      success
+    end
+
+    def failed?
+      !success?
     end
   end
 end

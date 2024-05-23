@@ -4,5 +4,6 @@ module Facio
     include ActiveModel::Serializers::JSON
     include ActiveModel::Associations
     include ActiveModel::Attributes
+    include ActiveModel::Validations
   end
 end

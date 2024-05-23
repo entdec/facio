@@ -60,6 +60,7 @@ class TestServices < Minitest::Test
     subject = InlineWithValidationsService.perform
     assert_nil subject.result
     refute subject.valid?
+    assert subject.invalid?
     refute subject.performed?
     assert_equal "can't be blank", subject.context.errors[:value].first
   end

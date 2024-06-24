@@ -76,4 +76,11 @@ class TestServices < Minitest::Test
     assert_equal "InlineContext", subject.class.name
     assert_equal "ApplicationContext", subject.class.superclass.name
   end
+
+  def test_context_can_fail
+    subject = SimpleContext.new
+    assert_raises(Facio::ContextFailure, match: /oops/) do
+      subject.fail!("oops")
+    end
+  end
 end

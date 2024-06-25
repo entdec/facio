@@ -2,7 +2,7 @@ module Facio
   class Context < BaseModel
     attribute :result
 
-    def fail!(attr, message = :invalid, options = {})
+    def fail!(attr = nil, message = :invalid, options = {})
       @success = false
       merge_errors!(attr, message, options)
       raise Facio::ContextFailure, self

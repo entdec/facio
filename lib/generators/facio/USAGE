@@ -1,0 +1,9 @@
+Description:
+    Generates a service and context
+
+Example:
+    rails g facio:service thing
+
+    This will create:
+        app/services/your_service.rb
+        app/services/your_context.rb

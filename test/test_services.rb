@@ -83,4 +83,16 @@ class TestServices < Minitest::Test
       subject.fail!("oops")
     end
   end
+
+  def test_can_use_service_with_perform_later_with_after_perform
+    message = Message.create!(text: "test")
+    subject = nil
+    perform_enqueued_jobs do
+      subject = SimpleWithAfterPerformService.perform_later(message: message)
+      refute subject.performed?
+      assert_equal "SimpleWithAfterPerformService", subject.class.name
+      assert subject.successfully_enqueued?
+    end
+    assert_equal "tsetafter_perform", message.reload.text
+  end
 end

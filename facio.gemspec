@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  rails_deps_version = "~> 7.1"
+  rails_deps_version = "> 7"
 
   # Uncomment to register a new dependency of your gem
   spec.add_dependency "actionpack", rails_deps_version

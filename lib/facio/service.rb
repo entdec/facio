@@ -33,8 +33,6 @@ module Facio
         # Purely as a convenience, but also to enforce a standard
         context.result ||= result if @result.nil?
       end
-
-      self
     end
 
     around_enqueue do |job, block|

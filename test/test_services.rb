@@ -66,8 +66,8 @@ class TestServices < Minitest::Test
   end
 
   def test_context_will_use_application_context_if_defined
-    skip "Doesn't work yet, can't seem to define ApplicationContext and find it in dsl.rb/context_base_class"
-    Object.const_set("ApplicationContext", Class.new(Facio::Context))
+    skip "Doesn't work yet, can't seem to define ApplicationContext and find it in service_context.rb/context_base_class"
+    Object.const_set(:ApplicationContext, Class.new(Facio::Context))
 
     subject = InlineService.perform(value: "test")
     assert subject.performed?

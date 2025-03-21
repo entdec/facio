@@ -98,8 +98,22 @@ end
 
 ### Result
 
-When the context model includes a result attribute, you can (and should) use that to return the outcome of the service. Facio will set it to the last value of the perform if you don't. 
-Additionally, when the return value is more complex, or you need validation on the return, you can use the return object.
+When the context model includes a result attribute, you can (and should) use that to return the outcome of the service. Facio will set it to the last value of the perform if you don't. Additionally, when the return value is more complex, or you need validation on the return, you can use the result object. This works as follows:
+
+```ruby
+class InlineResultService < Facio::Service
+  context do
+    attribute :value
+  end
+  result do
+    attribute :text
+  end
+  def perform
+    result.text = context.value.to_s.reverse
+  end
+end
+
+```
 
 ## License
 

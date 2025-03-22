@@ -34,18 +34,22 @@ module Facio
 
     # Returns whether the context is valid
     delegate :valid?, to: :@context
+    # Returns whether the coentext is invalid
     delegate :invalid?, to: :@context
 
+    # Returns whether the service has been performed (only when using perform)
     def performed?
       @performed
     end
 
+    # Returns whether the service was successfully performed
     def success?
       success = performed? && valid?
       success &&= @result.valid? if @result
       success
     end
 
+    # Returns whether the service failed to perform
     def failed?
       !success?
     end

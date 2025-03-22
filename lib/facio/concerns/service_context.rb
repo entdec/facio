@@ -16,8 +16,9 @@ module ServiceContext
     # this behaviour you can pass a base_class as an argument.
     #
     def context(base_class: context_base_class, &)
-      mdl = derived_context_name.deconstantize.present? ? derived_context_name.deconstantize.safe_constantize : Object
-      @context_class = mdl.const_set(derived_context_name.demodulize, Class.new(base_class))
+      # This is to be able to define the context class in a sensible module name
+      module_obj = derived_context_name.deconstantize.present? ? derived_context_name.deconstantize.safe_constantize : Object
+      @context_class = module_obj.const_set(derived_context_name.demodulize, Class.new(base_class))
       @context_class.instance_exec(&)
     end
 
@@ -30,8 +31,7 @@ module ServiceContext
     # Helpers
 
     def context_base_class
-      # FIXME: This doesn't work sadly
-      Object.const_defined?("ApplicationContext") ? Object.const_get("ApplicationContext") : Facio::Context
+      defined?(ApplicationContext) ? ApplicationContext : Facio::Context
     end
 
     def context_class

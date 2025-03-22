@@ -65,16 +65,17 @@ class TestServices < Minitest::Test
     assert_equal "can't be blank", subject.context.errors[:value].first
   end
 
+  # FIXME: How to test it does take the ApplicationContext if defined?
   def test_context_will_use_application_context_if_defined
-    skip "Doesn't work yet, can't seem to define ApplicationContext and find it in service_context.rb/context_base_class"
+    skip "This test is not working as expected, the ApplicationContext is not found in the service_context.rb"
     Object.const_set(:ApplicationContext, Class.new(Facio::Context))
 
     subject = InlineService.perform(value: "test")
     assert subject.performed?
     assert_equal "tset", subject.result
-    assert_equal "InlineService", result.class.name
-    assert_equal "InlineContext", subject.class.name
-    assert_equal "ApplicationContext", subject.class.superclass.name
+    assert_equal "InlineService", subject.class.name
+    assert_equal "InlineContext", subject.context.class.name
+    assert_equal "ApplicationContext", subject.context.class.superclass.name
   end
 
   def test_context_can_fail

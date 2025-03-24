@@ -4,7 +4,7 @@ require 'test_helper'
 
 class <%= name.camelize %>ServiceTest < ActiveSupport::TestCase
   test 'service context result is success' do
-    context = <%=name%>Service.perform(some: 'some')
+    context = <%=name.camelize%>Service.perform(some: 'some')
     assert context.success?
     assert_equal 'emos', context.some
   end

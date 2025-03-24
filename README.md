@@ -16,6 +16,22 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
     $ gem install facio
 
+## Generator
+
+Facio comes with a handy generator to generate a service and context:
+
+```shell
+rails g facio:service module/my_service
+```
+
+this will do the following:
+
+```
+create  app/services/module/my_service_service.rb
+create  app/services/module/my_service_context.rb
+create  test/services/module/my_service_test.rb
+```
+
 ## Usage
 Every service has a context, which encapsulates all the information to perform the action. The perform method on the service should include all your code. 
 

@@ -33,7 +33,10 @@ create  test/services/module/my_service_test.rb
 ```
 
 ## Usage
-Every service has a context, which encapsulates all the information to perform the action. The perform method on the service should include all your code. 
+
+### Service
+
+Every service has a context, which encapsulates all the information to perform the action. The perform method on the service should be your main point of entry.
 
 ```ruby
 # simple_service.rb
@@ -70,6 +73,8 @@ end
 SimpleService.perform_later(message: Message.find(1))
 ```
 In this case, once the service is done, you should see the Message's text being reversed.
+
+Services are subclasses of ActiveJob::Base, which basically gives you things like concurrency control and retry logic.
 
 ### Context
 

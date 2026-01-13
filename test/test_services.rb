@@ -96,4 +96,11 @@ class TestServices < Minitest::Test
     end
     assert_equal "tsetafter_perform", message.reload.text
   end
+
+  def test_service_validates_context_before_perform
+    subject = SimpleService.perform
+    refute subject.performed?
+    refute subject.valid?
+    assert_equal "can't be blank", subject.context.errors[:value].first
+  end
 end

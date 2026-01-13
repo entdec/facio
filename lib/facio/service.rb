@@ -44,7 +44,7 @@ module Facio
 
     # Returns whether the service was successfully performed
     def success?
-      success = performed? && valid?
+      success = performed?
       success &&= @result.valid? if @result
       success
     end

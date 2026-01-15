@@ -11,7 +11,6 @@ module Facio
     include ServiceResult
     include Transactional
     include Translations
-    include Callbacks
     include Execution
 
     class << self
@@ -19,6 +18,19 @@ module Facio
         job = job_or_instantiate(...)
         job.perform_now
         job
+      end
+
+      def perform_later(...)
+        job = job_or_instantiate(...)
+        job.instance_variable_set(:@performed, false)
+        job.instance_variable_set(:@context, context_class.new(job.arguments.first))
+        job.instance_variable_set(:@result, result_class&.new)
+
+        enqueue_result = job.enqueue
+
+        yield job if block_given?
+
+        enqueue_result
       end
 
       alias_method :perform_now, :perform

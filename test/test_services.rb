@@ -21,7 +21,7 @@ class TestServices < Minitest::Test
 
   def test_can_use_service_with_perform_later
     subject = SimpleService.perform_later
-    refute subject.performed?
+    assert_equal false, subject.performed?
     assert subject.successfully_enqueued?
   end
 
@@ -30,7 +30,7 @@ class TestServices < Minitest::Test
     subject = nil
     perform_enqueued_jobs do
       subject = LaterService.perform_later(message: message)
-      refute subject.performed?
+      assert_equal false, subject.performed?
       assert_equal "LaterService", subject.class.name
       assert subject.successfully_enqueued?
     end

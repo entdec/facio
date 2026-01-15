@@ -22,11 +22,12 @@ module Facio
 
       def perform_later(...)
         job = job_or_instantiate(...)
+
+        enqueue_result = job.enqueue
+
         job.instance_variable_set(:@performed, false)
         job.instance_variable_set(:@context, context_class.new(job.arguments.first))
         job.instance_variable_set(:@result, result_class&.new)
-
-        enqueue_result = job.enqueue
 
         yield job if block_given?
 

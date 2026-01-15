@@ -8,6 +8,14 @@ module Facio
       raise Facio::ContextFailure, self
     end
 
+    def failed?
+      errors.any?
+    end
+
+    def success?
+      errors.none?
+    end
+
     private
 
     def merge_errors!(attr, message = :invalid, options = {})

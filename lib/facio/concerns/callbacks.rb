@@ -16,7 +16,6 @@ module Callbacks
             # This is the most close to expected behaviour this can get.
             raise ActiveRecord::Rollback if context.failed?
           end
-
         else
           result = block.call
         end
@@ -27,10 +26,11 @@ module Callbacks
       end
     end
 
-    before_enqueue do |job|
+    around_enqueue do |job, block|
       @performed = false
       @context = self.class.context_class.new(arguments.first)
       @result = self.class.result_class&.new
+      block.call
     end
   end
 end

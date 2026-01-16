@@ -138,6 +138,11 @@ end
 
 ```
 
+```
+_enqueue_callbacks.map.with_index {|c,i| [i, c.kind, c.name, c.filter]}
+_perform_callbacks.map.with_index {|c,i| [i, c.kind, c.name, c.filter]}
+```
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

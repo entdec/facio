@@ -8,7 +8,7 @@ module Execution
     @result = self.class.result_class&.new
     @performed = false
     Rails.logger.error "******************* facio_perform_with_arguments #{@context.valid?}********************"
-    Rails.logger.error "******************* facio_perform_with_arguments context #{@context}********************"
+    Rails.logger.error "******************* facio_perform_with_arguments context #{@context.inspect}********************"
     if @context.valid?
       result = nil
       if transactional && defined?(ActiveRecord::Base)

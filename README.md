@@ -76,14 +76,22 @@ In this case, once the service is done, you should see the Message's text being 
 
 Services are subclasses of ActiveJob::Base, which basically gives you things like concurrency control and retry logic.
 
+As a Facio::Service is just an ActiveJob, perform_later will return the service if enqueued successfully, or false if the context is invalid. If you want to inspect the context you can do so by passing a block to perform_later:
+
+```ruby
+SimpleService.perform_later(value: "no lemon, no melon") do |job|
+  puts job.context.errors.full_messages
+end
+
 ### Context
 
 A context is just an PORO, which includes the ActiveModel::API, which includes validation. You can add validation to the context, 
 Facio will check the validity of the context before performing the service. Context can be created in separate files, but also inline in the service. 
 
-It has some useful extra's allowing for associations (has_one/has_many), it also has a type caster for models, so that you can pass the id or the model itself into an attribute.
+It has some useful extras allowing for associations (has_one/has_many), it also has a type caster for models, so that you can pass the id or the model itself into an attribute.
 
 Using context like below (inline) will then construct a Class, with Facio::Context as a base_class. You can also use external context classes and refer to the in the inline class using the base_class.
+
 ```ruby
 # some_context.rb
 class SomeContext < Facio::Context
@@ -135,13 +143,15 @@ class InlineResultService < Facio::Service
     result.text = context.value.to_s.reverse
   end
 end
-
 ```
 
-```
-_enqueue_callbacks.map.with_index {|c,i| [i, c.kind, c.name, c.filter]}
-_perform_callbacks.map.with_index {|c,i| [i, c.kind, c.name, c.filter]}
-```
+## Notes
+
+Facio uses two around callbacks, one for the enqueue and one for the perform.
+The `around_enqueue` callback will check the validity of the context, and if it's invalid, it will not enqueue the job.
+The `around_perform` callback will again check the validity of the context, and if it's invalid, it will not perform the job.
+
+If you use callbacks yourself in your service, in some cases you might want to inspect the callback ordering.
 
 ## License
 

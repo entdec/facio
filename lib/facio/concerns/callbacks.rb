@@ -30,7 +30,8 @@ module Callbacks
       @performed = false
       @context = self.class.context_class.new(arguments.first)
       @result = self.class.result_class&.new
-      block.call
+
+      block.call if @context.valid?
     end
   end
 end

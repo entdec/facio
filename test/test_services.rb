@@ -19,10 +19,12 @@ class TestServices < Minitest::Test
     assert_equal "SimpleService", subject.class.name
   end
 
-  def test_can_use_service_with_perform_later
-    subject = SimpleService.perform_later
-    assert_equal false, subject.performed?
-    assert subject.successfully_enqueued?
+  def test_can_use_service_with_perform_later_invalid_context
+    subject = SimpleService.perform_later do |job|
+      assert job.context.failed?
+      refute job.valid?
+    end
+    assert_equal false, subject
   end
 
   def test_actually_does_something_in_perform_later

@@ -61,7 +61,7 @@ class TestServices < Minitest::Test
     assert_nil subject.result
     refute subject.valid?
     assert subject.invalid?
-    refute subject.performed?
+    assert_equal false, subject.performed?
     assert_equal "can't be blank", subject.context.errors[:value].first
   end
 
@@ -90,7 +90,7 @@ class TestServices < Minitest::Test
     subject = nil
     perform_enqueued_jobs do
       subject = SimpleWithAfterPerformService.perform_later(message: message)
-      refute subject.performed?
+      assert_equal false, subject.performed?
       assert_equal "SimpleWithAfterPerformService", subject.class.name
       assert subject.successfully_enqueued?
     end
@@ -99,7 +99,7 @@ class TestServices < Minitest::Test
 
   def test_service_validates_context_before_perform
     subject = SimpleService.perform
-    refute subject.performed?
+    assert_equal false, subject.performed?
     refute subject.valid?
     assert_equal "can't be blank", subject.context.errors[:value].first
   end

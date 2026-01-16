@@ -22,7 +22,6 @@ module Facio
 
       def perform_later(...)
         job = job_or_instantiate(...)
-
         enqueue_result = job.enqueue
 
         job.instance_variable_set(:@performed, false)

@@ -53,7 +53,7 @@ module Facio
 
     # Returns whether the service has been performed (only when using perform)
     def performed?
-      Rails.logger.error "*******************Facio performed? #{performed?}********************"
+      Rails.logger.error "*******************Facio performed? #{@performed}********************"
       @performed
     end
 

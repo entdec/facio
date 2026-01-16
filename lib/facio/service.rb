@@ -15,12 +15,14 @@ module Facio
 
     class << self
       def perform(...)
+        Rails.logger.error "*******************Facio perform********************"
         job = job_or_instantiate(...)
         job.perform_now
         job
       end
 
       def perform_later(...)
+        Rails.logger.error "*******************Facio perform_later********************"
         job = job_or_instantiate(...)
         enqueue_result = job.enqueue
 
@@ -51,6 +53,7 @@ module Facio
 
     # Returns whether the service has been performed (only when using perform)
     def performed?
+      Rails.logger.error "*******************Facio performed? #{performed?}********************"
       @performed
     end
 

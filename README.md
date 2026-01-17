@@ -4,7 +4,7 @@ Command pattern for Ruby (on Rails). From Wikipedia:
 
 > In object-oriented programming, the command pattern is a behavioral design pattern in which an object is used to encapsulate all information needed to perform an action or trigger an event at a later time. This information includes the method name, the object that owns the method and values for the method parameters.
 
-It basically allows you to encapsulate bits of code for a specific purpose. It's also nicely explained by [refactoring.guru](https://refactoring.guru/design-patterns/command)
+It basically allows you to encapsulate bits of code for a specific purpose. It's also nicely explained by [refactoring.guru](https://refactoring.guru/design-patterns/command). It also makes these easier to test in isolation, not cluttering your model and/or controller.
 
 ## Installation
 

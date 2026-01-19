@@ -14,6 +14,8 @@ module Callbacks
 
       if @context.valid?
         result = nil
+        @performed = true
+
         if transactional && defined?(ActiveRecord::Base)
           ActiveRecord::Base.transaction(requires_new: true) do
             result = yield
@@ -25,7 +27,6 @@ module Callbacks
           result = yield
         end
 
-        @performed = true
         # Purely as a convenience, but also to enforce a standard
         context.result ||= result if @result.nil?
       end
